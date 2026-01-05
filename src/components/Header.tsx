@@ -88,7 +88,7 @@ export default function Header() {
             <Menu size={24} />
           </button>
           <h1 className="ml-4 text-xl font-semibold">
-            <Link to="/">Stackboard Market</Link>
+            <Link to="/app">Stackboard Market</Link>
           </h1>
         </div>
 
