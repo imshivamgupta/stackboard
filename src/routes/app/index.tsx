@@ -1,8 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
+import { authenticatedFetch, requireAuth } from '../../middleware/auth'
 import type { Product, ProductsResponse } from '../../types/product'
 
 export const Route = createFileRoute('/app/')({
+  beforeLoad: () => {
+    requireAuth()
+  },
   component: RouteComponent,
 })
 
@@ -10,8 +14,8 @@ function RouteComponent() {
   const { data, isLoading } = useQuery<ProductsResponse>({
     queryKey: ['products'],
     queryFn: () =>
-      fetch(`${import.meta.env.VITE_API_BASE_URL}/products`).then((res) =>
-        res.json(),
+      authenticatedFetch(`${import.meta.env.VITE_API_BASE_URL}/products`).then(
+        (res) => res.json(),
       ),
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 10, // 10 minutes
@@ -44,7 +48,11 @@ function ProductCard({ product }: { product: Product }) {
   ).toFixed(2)
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+    <Link
+      to="/app/product/$productId"
+      params={{ productId: product.id.toString() }}
+      className="block border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+    >
       <div className="relative">
         <img
           src={product.thumbnail}
@@ -117,10 +125,11 @@ function ProductCard({ product }: { product: Product }) {
         <button
           disabled={product.stock === 0}
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          onClick={(e) => e.preventDefault()}
         >
-          {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+          {product.stock > 0 ? 'View Details' : 'Out of Stock'}
         </button>
       </div>
-    </div>
+    </Link>
   )
 }

@@ -40,7 +40,7 @@ export async function authenticatedFetch(
   const { accessToken } = getAuthState()
 
   const headers = new Headers(options.headers)
-  
+
   if (accessToken) {
     headers.set('Authorization', `Bearer ${accessToken}`)
   }

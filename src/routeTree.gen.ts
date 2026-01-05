@@ -17,6 +17,7 @@ import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.se
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiTqTodosRouteImport } from './routes/demo/api.tq-todos'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
+import { Route as AppProductProductIdRouteImport } from './routes/app/product.$productId'
 import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
 import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
@@ -62,6 +63,11 @@ const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
   path: '/demo/api/names',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppProductProductIdRoute = AppProductProductIdRouteImport.update({
+  id: '/app/product/$productId',
+  path: '/app/product/$productId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoStartSsrIndexRoute = DemoStartSsrIndexRouteImport.update({
   id: '/demo/start/ssr/',
   path: '/demo/start/ssr/',
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/app/login': typeof AppLoginRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app': typeof AppIndexRoute
+  '/app/product/$productId': typeof AppProductProductIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/app/login': typeof AppLoginRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app': typeof AppIndexRoute
+  '/app/product/$productId': typeof AppProductProductIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/app/login': typeof AppLoginRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app/': typeof AppIndexRoute
+  '/app/product/$productId': typeof AppProductProductIdRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/app/login'
     | '/demo/tanstack-query'
     | '/app'
+    | '/app/product/$productId'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/start/api-request'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/app/login'
     | '/demo/tanstack-query'
     | '/app'
+    | '/app/product/$productId'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/start/api-request'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/app/login'
     | '/demo/tanstack-query'
     | '/app/'
+    | '/app/product/$productId'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/start/api-request'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   AppLoginRoute: typeof AppLoginRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppProductProductIdRoute: typeof AppProductProductIdRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoApiTqTodosRoute: typeof DemoApiTqTodosRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
@@ -244,6 +257,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoApiNamesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/product/$productId': {
+      id: '/app/product/$productId'
+      path: '/app/product/$productId'
+      fullPath: '/app/product/$productId'
+      preLoaderRoute: typeof AppProductProductIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/start/ssr/': {
       id: '/demo/start/ssr/'
       path: '/demo/start/ssr'
@@ -280,6 +300,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppLoginRoute: AppLoginRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   AppIndexRoute: AppIndexRoute,
+  AppProductProductIdRoute: AppProductProductIdRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoApiTqTodosRoute: DemoApiTqTodosRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
