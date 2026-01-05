@@ -2,12 +2,25 @@ import { Link } from '@tanstack/react-router'
 
 import { useState } from 'react'
 import {
+  Baby,
+  Camera,
+  Car,
+  Dumbbell,
+  Flower2,
+  Gamepad2,
+  Gem,
   Grid3X3,
+  Headphones,
   Home,
+  Home as HomeIcon,
+  Laptop,
   Menu,
   Network,
+  Shirt,
+  Smartphone,
+  Sofa,
   SquareFunction,
-  StickyNote,
+  Watch,
   X,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
@@ -17,6 +30,39 @@ interface Category {
   slug: string
   name: string
   url: string
+}
+
+// Function to get appropriate icon for each category
+const getCategoryIcon = (categoryName: string) => {
+  const iconMap: Record<string, any> = {
+    beauty: Gem,
+    fragrances: Flower2,
+    furniture: Sofa,
+    groceries: HomeIcon,
+    'home-decoration': HomeIcon,
+    'kitchen-accessories': HomeIcon,
+    laptops: Laptop,
+    'mens-shirts': Shirt,
+    'mens-shoes': Shirt,
+    'mens-watches': Watch,
+    'mobile-accessories': Smartphone,
+    motorcycle: Car,
+    'skin-care': Gem,
+    smartphones: Smartphone,
+    'sports-accessories': Dumbbell,
+    sunglasses: Watch,
+    tablets: Laptop,
+    tops: Shirt,
+    vehicle: Car,
+    'womens-bags': Shirt,
+    'womens-dresses': Shirt,
+    'womens-jewellery': Gem,
+    'womens-shoes': Shirt,
+    'womens-watches': Watch,
+  }
+
+  const IconComponent = iconMap[categoryName.toLowerCase()] || Grid3X3
+  return IconComponent
 }
 
 export default function Header() {
@@ -63,36 +109,26 @@ export default function Header() {
         </div>
 
         <nav className="flex-1 p-4 overflow-y-auto">
-          <Link
-            to="/app"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Home size={20} />
-            <span className="font-medium">Home</span>
-          </Link>
-
           {/* Categories */}
-          {categories?.map((category) => (
-            <Link
-              key={category.slug}
-              to="/app"
-              search={{ category: category.slug }}
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-              activeProps={{
-                className:
-                  'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-              }}
-            >
-              <Grid3X3 size={20} />
-              <span className="font-medium">{category.name}</span>
-            </Link>
-          ))}
+          {categories?.map((category) => {
+            const IconComponent = getCategoryIcon(category.slug)
+            return (
+              <Link
+                key={category.slug}
+                to="/app"
+                search={{ category: category.slug }}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+                activeProps={{
+                  className:
+                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                }}
+              >
+                <IconComponent size={20} />
+                <span className="font-medium">{category.name}</span>
+              </Link>
+            )
+          })}
 
           {/* Demo Links Start */}
 
