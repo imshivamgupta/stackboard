@@ -52,7 +52,7 @@ function RouteComponent() {
       localStorage.setItem('accessToken', data.accessToken)
       localStorage.setItem('user', JSON.stringify(data))
       // Navigate to categories page
-      navigate({ to: '/app/categories' })
+      navigate({ to: '/app' })
     },
     onError: (error) => {
       console.error('Login error:', error)

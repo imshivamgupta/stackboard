@@ -6,6 +6,11 @@ export interface AuthState {
 }
 
 export function getAuthState(): AuthState {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined') {
+    return { accessToken: null, user: null }
+  }
+
   const accessToken = localStorage.getItem('accessToken')
   const userStr = localStorage.getItem('user')
   const user = userStr ? JSON.parse(userStr) : null
@@ -28,8 +33,11 @@ export function requireAuth() {
 }
 
 export function logout() {
-  localStorage.removeItem('accessToken')
-  localStorage.removeItem('user')
+  // Check if we're in a browser environment
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('user')
+  }
 }
 
 // API Interceptor - Fetch wrapper that automatically adds auth token
