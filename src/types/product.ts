@@ -50,3 +50,36 @@ export interface ProductsResponse {
   skip: number
   limit: number
 }
+
+export interface ProductDetail {
+  id: number
+  title: string
+  description: string
+  category: string
+  discountPercentage: number
+  rating: number
+  stock: number
+  tags: Array<string>
+  brand: string
+  sku: string
+  weight: number
+  dimensions: {
+    width: number
+    height: number
+    depth: number
+  }
+  warrantyInformation: string
+  shippingInformation: string
+  availabilityStatus: string
+  reviews: Array<Review>
+  returnPolicy: string
+  minimumOrderQuantity: number
+  meta: {
+    createdAt: string
+    updatedAt: string
+    barcode: string
+    qrCode: string
+  }
+  images: Array<string>
+  thumbnail: string
+}

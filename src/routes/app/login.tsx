@@ -51,8 +51,8 @@ function RouteComponent() {
       // Store token in localStorage or handle authentication state
       localStorage.setItem('accessToken', data.accessToken)
       localStorage.setItem('user', JSON.stringify(data))
-      // Navigate to products page
-      navigate({ to: '/app' })
+      // Navigate to categories page
+      navigate({ to: '/app/categories' })
     },
     onError: (error) => {
       console.error('Login error:', error)

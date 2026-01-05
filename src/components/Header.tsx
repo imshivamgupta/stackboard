@@ -2,8 +2,7 @@ import { Link } from '@tanstack/react-router'
 
 import { useState } from 'react'
 import {
-  ChevronDown,
-  ChevronRight,
+  Grid3X3,
   Home,
   Menu,
   Network,
@@ -11,12 +10,26 @@ import {
   StickyNote,
   X,
 } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { authenticatedFetch } from '../middleware/auth'
+
+interface Category {
+  slug: string
+  name: string
+  url: string
+}
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const [groupedExpanded, setGroupedExpanded] = useState<
-    Record<string, boolean>
-  >({})
+
+  const { data: categories } = useQuery<Array<Category>>({
+    queryKey: ['categories'],
+    queryFn: () =>
+      authenticatedFetch(
+        `${import.meta.env.VITE_API_BASE_URL}/products/categories`,
+      ).then((res) => res.json()),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  })
 
   return (
     <>
@@ -51,7 +64,7 @@ export default function Header() {
 
         <nav className="flex-1 p-4 overflow-y-auto">
           <Link
-            to="/"
+            to="/app"
             onClick={() => setIsOpen(false)}
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
             activeProps={{
@@ -63,9 +76,27 @@ export default function Header() {
             <span className="font-medium">Home</span>
           </Link>
 
+          {/* Categories */}
+          {categories?.map((category) => (
+            <Link
+              key={category.slug}
+              to="/app"
+              search={{ category: category.slug }}
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+              activeProps={{
+                className:
+                  'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+              }}
+            >
+              <Grid3X3 size={20} />
+              <span className="font-medium">{category.name}</span>
+            </Link>
+          ))}
+
           {/* Demo Links Start */}
 
-          <Link
+          {/* <Link
             to="/demo/tanstack-query"
             onClick={() => setIsOpen(false)}
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
@@ -174,7 +205,7 @@ export default function Header() {
                 <span className="font-medium">Data Only</span>
               </Link>
             </div>
-          )}
+          )} */}
 
           {/* Demo Links End */}
         </nav>
